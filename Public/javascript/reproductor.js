@@ -1,3 +1,14 @@
+
+
+const domain_railway = "https://musicfy-musicfy.up.railway.app";
+
+// 💡 URL del backend dinámico (localhost o producción)
+const API_URL =
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:3000' // 🚧 Desarrollo local
+    : domain_railway // ✅ Producción en Railway (cambia esto)
+
+
 const appEl = document.getElementById('app');
 const isLoggedIn = appEl.getAttribute('data-logged-in') === 'true';
 
@@ -20,7 +31,7 @@ let likedSongs = [];
 
 async function fetchSongs() {
   try {
-    const response = await fetch('/api/canciones');
+    const response = await fetch(`${API_URL}/api/canciones`);
     if (!response.ok) {
       throw new Error('Error fetching songs');
     }
