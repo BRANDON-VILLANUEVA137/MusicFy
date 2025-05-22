@@ -1,4 +1,6 @@
-mysql://root:LNTvaCUJQgmfRKpqatrcFbDCJMziYDSm@mainline.proxy.rlwy.net:24026/railway
+
+direccion backendt: musicfy-musicfy.up.railway.app
+Base de datos: mysql://root:LNTvaCUJQgmfRKpqatrcFbDCJMziYDSm@mainline.proxy.rlwy.net:24026/railway
 
 CREATE DATABASE music_FY;
 USE music_FY;

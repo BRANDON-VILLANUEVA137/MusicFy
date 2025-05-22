@@ -1,0 +1,181 @@
+/* Estilos generales que ya tienes */
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;   
+    background-image: url(/Images/Login_found.webp);
+    background-size: cover;
+}
+
+.fondo {
+    position: relative;
+    width: 390px;
+    min-height: 520px;
+    background: transparent;
+    border: 2px solid rgba(439, 349, 249, .7);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 40px;
+    z-index: 2;
+}
+
+.fondo.active {
+    height: 625px;
+}
+
+.fondo .container_form {
+    width: 94%;
+    padding: 43px;
+    position: absolute; /* Agregado para que ambos formularios se posicionen en el mismo lugar */
+    transition: transform 0.17s ease;
+    background-color: rgba(238, 235, 235, 0.5); /* Fondo blanco semitransparente */
+    border-radius: 10px; /* Bordes redondeados para el contenedor */
+}
+
+.fondo .container_form.login {
+    transform: translateX(0); /* Login se muestra inicialmente */
+}
+
+.fondo.active .container_form.login {
+    transform: translateX(-400px); /* Login se oculta cuando se activa la clase .active */
+}
+
+.fondo .container_form.register {
+    transform: translateX(400px); /* Register está fuera de la vista inicialmente */
+}
+
+.fondo.active .container_form.register {
+    transform: translateX(0); /* Register se muestra cuando se activa la clase .active */
+}  
+
+.container_form h2 {
+    position: relative;
+    font-size: 2em;
+    color: #333; /* Color más oscuro para el título */
+    text-align: center;
+}
+
+/* Ajustes a los contenedores de inputs */
+.Input_Container {
+    position: relative;
+    margin: 30px 0;
+    height: 50px;
+    width: 100%;
+    border-bottom: 2px solid #020202;
+}
+
+.Input_Container label {
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    font-size: 1rem;
+    pointer-events: none;
+    font-weight: bold;
+    transition: .6s;
+    z-index: 1;
+    color: #333; /* Color más oscuro para el label */
+}
+
+.Input_Container input:focus ~ label,
+.Input_Container input:valid ~ label {
+    top: -10px;
+    left: 5px;
+    font-size: 0.9rem;
+    color: #000; /* Asegura que el label se mantenga visible */
+}
+
+.Input_Container input {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: -35px 0 5px;
+    color: #000; /* Cambiar a un color más oscuro para el texto */
+}
+
+.Input_Container i {
+    position: absolute;
+    color: #000000;
+    font-size: 1.5rem;
+    right: 8px;
+}
+
+/* Estilos para la sección de olvidar contraseña y opciones adicionales */
+.Olvidar {
+    margin: -15px 0 15px;
+    font-size: .9em;
+    color: #000; /* Color más oscuro para el texto */
+    display: flex;
+    justify-content: center;
+}
+
+.Olvidar label input {
+    margin: 3px;
+}
+
+.Olvidar a {
+    color: #000000;
+    transition: .3s;
+    font-size: .9em;
+}
+
+.Olvidar a:hover {
+    text-decoration: underline;
+}
+
+#g_id_onload {
+    padding: 5px;
+}
+
+/* Botón genérico */
+button {
+    width: 100%;
+    height: 45px;
+    border-radius: 40px;
+    background: #fff;
+    border: solid 2px #000;
+    font-weight: bold;
+    cursor: pointer;
+    outline: none;
+    font-size: 1rem;
+    transition: .4s;
+}
+
+.Registrar, .Iniciar {
+    font-size: .8rem;
+    color: #0e0d0d;
+    text-align: center;
+    margin: 20px 0 10px;   
+}
+
+.Registrar p a, .Iniciar p a {
+    color: #000;
+    font-weight: bold;
+    transition: .3s;
+}
+
+.capa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #1c1c1d;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+}

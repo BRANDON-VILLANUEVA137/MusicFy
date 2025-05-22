@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://kit.fontawesome.com/aee386197f.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/Public/css/login.css">
+    <title>Login y Registro</title>
+</head>
+<body>
+
+    <!-- Contenedor principal -->
+        <div class="fondo">
+            
+            <!-- Sección de Login -->
+            <div class="container_form login">
+                    <form action="#">
+                        <h2>Iniciar Sesión</h2>
+                        <div class="Input_Container">
+                            <i class="fa-solid fa-envelope"></i>
+                            <input type="email" required>
+                            <label for="#"> Email</label>
+                        </div>
+
+                    <div class="Input_Container">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" required>
+                        <label for="#"> Contraseña</label>
+                    </div>
+                    <div class="Olvidar">
+                        <label for="#">
+                            <input type="checkbox"> Recordar
+                            
+                            <a href="#">Olvide la Contraseña</a>
+                            <div class="g-recaptcha" data-sitekey="6Ldhg14qAAAAAJq4BAdyBHBg4FavyLopI4ZZu3ey"></div>
+                        </label>
+                        
+                    </div>
+                    <button type="submit" class="btn">Acceder</button>
+                    <div id="g_id_onload"
+                            data-client_id="894320521590-sff9b4uooiiouv7kf3p7o64tmk3c9i10.apps.googleusercontent.com"
+                            data-callback="handleCredentialResponse">
+                   </div>
+<div class="g_id_signin" data-type="standard"></div>
+
+                    <div class="Registrar">
+                    <p>!No tengo cuenta¡ <a href="#" class="register_link">Crear una cuenta</a></p>
+                </div>
+            </form>
+
+            </div>
+
+            <!-- Sección de Registro (oculta por defecto) -->
+            <div class="container_form register">
+                <form action="#">
+                    <h2>Crear Cuenta</h2>
+    
+                    <div class="Input_Container">
+                        <i class="fa-solid fa-user"></i>
+                        <input type="text" id="nombre" required>
+                        <label for="nombre">Nombre</label>
+                    </div>
+    
+                    <div class="Input_Container">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input type="email" id="email_register" required>
+                        <label for="email_register">Email</label>
+                    </div>
+    
+                    <div class="Input_Container">
+                        <i class="fa-solid fa-lock"></i>
+                        <input type="password" id="password_register" required>
+                        <label for="password_register">Contraseña</label>
+                    </div>
+    
+                    <div class="Olvidar">
+
+                        <label>
+                            <input type="checkbox"> Acepto los <a href="#">términos y condiciones</a>
+                        </label>
+                    </div>
+    
+                    <div class="g-recaptcha" data-sitekey="6Ldhg14qAAAAAJq4BAdyBHBg4FavyLopI4ZZu3ey"></div>
+    
+                    <button type="submit" class="btn">Registrar</button>
+                </form>
+    
+                <div class="Iniciar">
+                    <p>¿Ya tienes cuenta? <a href="#" class="login_link">Inicia Sesión</a></p>
+                </div>
+            </div>
+    
+        </div>
+    
+    <!-- Video de fondo -->
+    <div class="capa"></div>
+    <!-- Script para alternar entre Login y Registro -->
+    <script src="/Public/javascript/login.js"></script>
+
+</body>
+</html>
+
+       

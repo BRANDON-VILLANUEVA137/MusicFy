@@ -1,58 +1,67 @@
-// Importaciones
-const express = require('express');
-const session = require('express-session');
-const dotenv = require('dotenv');
-const path = require('path');
-const cors = require('cors');
+// app.js
 
-const db = require('./db');
+import express from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import session from 'express-session';
+import bcrypt from 'bcryptjs';
+import pool from './db.js'; // o desde donde lo tengas
+import loginRoutes from '../Routes/loginRoutes.js';
+//import userRoutes from '../Routes/userRoutes.js';
 
-// Inicializar express
-const app = express();
-
-// Configurar dotenv
 dotenv.config();
 
-// Middleware
-app.use(cors({
-  origin: ['http://127.0.0.1:5500', 'https://yourtmusicfy.netlify.app'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true // <-- ESTO ES CLAVE
-}));
+const app = express();
+const PORT = process.env.PORT || 3000;
 
+// CORS combinado (desarrollo + producción)
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:5500',
+  'http://localhost:5500',
+  'http://127.0.0.1:15580',
+  'https://red-de-empleo-production.up.railway.app',
+  'https://red-de-empleo.netlify.app'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('No permitido por CORS'));
+    }
+  },
+  credentials: true,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Archivos estáticos (HTML, CSS, JS del frontend)
-app.use(express.static(path.join(__dirname, 'Public')));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.static('Public'));
 
 // Sesiones
 app.use(session({
-  secret: 'mi_secreto_super_seguro',
+  secret: 'clave_secreta_super_segura',
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
-    secure: true,           // true si Railway usa HTTPS
-    sameSite: 'none'        // necesario para cookies en CORS
+    secure: true,
+    sameSite: 'none',
+    maxAge: 1000 * 60 * 60 * 2
   }
 }));
 
-// Ruta para servir login.html directamente desde /views
+// Rutas principales
+app.use('/api/auth', loginRoutes);
+//app.use('/api/user', userRoutes);
+// Rutas API
+app.use('/api', loginRoutes);
+// Middleware global para manejo de errores
 
-// Rutas
-//pp.use('/api/movies', movieRoutes);
-//app.use(authRoutes); // Aquí se maneja POST /login
-//app.use('/auth', authRoutes);
 
-
-// Ruta raíz opcional
-app.get('/', (req, res) => {
-  res.send('¡Bienvenido a MUSIC_FY');
-});
-
-// Servidor
-const PORT = process.env.PORT || 3000;
+// Inicio del servidor
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
+  console.log(`🚀 Servidor backend corriendo en http://localhost:${PORT}`);
 });
