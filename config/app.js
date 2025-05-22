@@ -7,6 +7,8 @@ import session from 'express-session';
 import bcrypt from 'bcryptjs';
 import pool from './db.js'; // o desde donde lo tengas
 import loginRoutes from '../Routes/loginRoutes.js';
+import cancionesRoutes from '../Routes/cancionesRoutes.js';
+
 //import userRoutes from '../Routes/userRoutes.js';
 
 dotenv.config();
@@ -58,6 +60,7 @@ app.use('/api/auth', loginRoutes);
 //app.use('/api/user', userRoutes);
 // Rutas API
 app.use('/api', loginRoutes);
+app.use('/api', cancionesRoutes);
 // Middleware global para manejo de errores
 
 

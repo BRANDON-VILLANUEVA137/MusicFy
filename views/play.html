@@ -6,8 +6,8 @@
 <title>Music Vibe - Dark Music Player</title>
 <link rel="stylesheet" href="/Public/css/reproductor.css">
 </head>
-<body>
-<div id="app" role="main" aria-label="Music player app">
+<body data-logged-in="false">
+<div id="app" role="main" aria-label="Music player app" data-logged-in="false">
   <header>
     <h1>Music Vibe</h1>
   </header>
@@ -27,6 +27,12 @@
       <button class="btn" id="prev" title="Previous Track" aria-label="Previous track">&#9664;&#9664;</button>
       <button class="btn" id="play" title="Play/Pause" aria-label="Play or pause">&#9658;</button>
       <button class="btn" id="next" title="Next Track" aria-label="Next track">&#9654;&#9654;</button>
+    </div>
+  </section>
+  <section class="liked-songs" id="liked-songs" aria-label="Liked or saved songs">
+    <h2>Canciones guardadas</h2>
+    <div id="liked-list">
+      <!-- Liked songs will be populated here -->
     </div>
   </section>
   <section class="playlist" id="playlist" aria-label="Playlist of songs">
