@@ -20,8 +20,8 @@ const allowedOrigins = [
   'http://127.0.0.1:5500',
   'http://localhost:5500',
   'http://127.0.0.1:15580',
-  'https://red-de-empleo-production.up.railway.app',
-  'https://red-de-empleo.netlify.app'
+  'https://musicfy-musicfy.up.railway.app',
+  'https://musicfy-musicfy.up.railway.app'
 ];
 
 const corsOptions = {
