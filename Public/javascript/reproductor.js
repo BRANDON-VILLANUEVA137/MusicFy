@@ -26,7 +26,7 @@ let likedSongs = [];
 let currentSongIndex = 0;
 let isPlaying = false;
 
-function onYouTubeIframeAPIReady() {
+window.onYouTubeIframeAPIReady = function() {
   player = new YT.Player('video-player', {
     events: {
       'onStateChange': onPlayerStateChange
