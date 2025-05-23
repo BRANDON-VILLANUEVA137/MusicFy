@@ -64,14 +64,6 @@ function getYouTubeVideoId(youtubeUrl) {
 }
 
 function loadSong(index) {
-  if (!songs || songs.length === 0) {
-    console.warn('No songs available to load.');
-    return;
-  }
-  if (index < 0 || index >= songs.length) {
-    console.warn(`Invalid song index: ${index}`);
-    return;
-  }
   currentSongIndex = index;
   const song = songs[index];
   const videoId = getYouTubeVideoId(song.youtube_url);
