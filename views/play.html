@@ -11,24 +11,30 @@
   <header>
     <h1>Music Vibe</h1>
   </header>
+   
+   <section class="liked-songs" id="liked-songs" aria-label="Liked or saved songs">
+    <h2>Canciones guardadas</h2>
+    <div id="liked-list">
+      
+    </div>
+  </section>
+  <section class="playlist" id="playlist" aria-label="Playlist of songs">
+    
+  </section>
+</div> 
+
+  <footer>
   <section class="player" aria-label="Current track player">
-    <div class="track-info">
+    <div id="video-player-container" aria-label="Video player container" style="margin: 15px 0; border-radius: 12px; overflow: hidden;">
+      <iframe id="video-player" width="80" height="80" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+     <div class="track-info">
       <div class="track-title" id="track-title">-</div>
       <div class="track-artist" id="track-artist">-</div>
     </div>
-    <div id="video-player-container" aria-label="Video player container" style="margin: 15px 0; border-radius: 12px; overflow: hidden;">
-      <iframe id="video-player" width="100%" height="180" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
+   
     <!-- Removed progress bar and time display as they are non-functional for video playback -->
-    <!--
-    <div class="progress-container" id="progress-container" aria-label="Audio progress bar" tabindex="0" role="slider" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-      <div class="progress" id="progress"></div>
-    </div>
-    <div class="time">
-      <span id="current-time">0:00</span>
-      <span id="duration">0:00</span>
-    </div>
-    -->
+    
     <div class="controls" role="group" aria-label="Audio controls">
       <button class="btn" id="prev" title="Previous Track" aria-label="Previous track" aria-pressed="false" type="button">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="#d39bf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-skip-back">
@@ -47,19 +53,15 @@
           <line x1="19" y1="5" x2="19" y2="19"></line>
         </svg>
       </button>
+      <div class="time">
+      <span id="current-time">0:00</span>
+      <span id="duration">0:00</span>
+    </div>
+    
     </div>
   </section>
-  <section class="liked-songs" id="liked-songs" aria-label="Liked or saved songs">
-    <h2>Canciones guardadas</h2>
-    <div id="liked-list">
-      <!-- Liked songs will be populated here -->
-    </div>
-  </section>
-  <section class="playlist" id="playlist" aria-label="Playlist of songs">
-    <!-- Songs will be populated here -->
-  </section>
-</div>
-
+  </footer>
+   
 </body>
 <script src="/Public/javascript/reproductor.js"></script>
 </html>
