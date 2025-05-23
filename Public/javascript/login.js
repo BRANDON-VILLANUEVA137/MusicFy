@@ -64,6 +64,7 @@ registerForm.addEventListener("submit", (event) => {
 
   fetch(`${API_URL}/api/register`, {
     method: 'POST',
+    credentials: 'include', // Added credentials here for session cookie on register
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ nombre, correo, contrasena }) 
   })
