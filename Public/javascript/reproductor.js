@@ -14,7 +14,7 @@ const isLoggedIn = appEl.getAttribute('data-logged-in') === 'true';
 
 const trackTitle = document.getElementById('track-title');
 const trackArtist = document.getElementById('track-artist');
-const videoPlayer = document.getElementById('video-player');
+const audio = new Audio();
 let currentSongIndex = 0;
 const progressContainer = document.getElementById('progress-container');
 const progress = document.getElementById('progress');
@@ -28,8 +28,6 @@ const likedListEl = document.getElementById('liked-list');
 
 let songs = [];
 let likedSongs = [];
-let isPlaying = false;
-let currentEmbedUrl = '';
 
 async function fetchSongs() {
   try {
@@ -46,75 +44,65 @@ async function fetchSongs() {
   }
 }
 
-function getYouTubeEmbedUrl(youtubeUrl) {
-  // Extract video ID from YouTube URL with improved regex
-  const videoIdMatch = youtubeUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-  if (videoIdMatch && videoIdMatch[1]) {
-    return `https://www.youtube.com/embed/${videoIdMatch[1]}?enablejsapi=1`;
-  }
-  return '';
-}
-
 function loadSong(index) {
   const song = songs[index];
-  currentEmbedUrl = getYouTubeEmbedUrl(song.youtube_url);
-  videoPlayer.src = currentEmbedUrl + '&autoplay=1';
+  audio.src = song.youtube_url;
   trackTitle.textContent = song.titulo;
   trackArtist.textContent = song.artista;
   updateActiveSong();
-  isPlaying = true;
+}
+
+function playSong() {
+  audio.play();
   playBtn.innerHTML = '&#10073;&#10073;'; // Pause icon
   playBtn.title = 'Pause';
   playBtn.setAttribute('aria-label', 'Pause');
 }
 
-function playSong() {
-  // Play video by setting src with autoplay
-  if (currentEmbedUrl) {
-    videoPlayer.src = currentEmbedUrl + '&autoplay=1';
-    isPlaying = true;
-    playBtn.innerHTML = '&#10073;&#10073;'; // Pause icon
-    playBtn.title = 'Pause';
-    playBtn.setAttribute('aria-label', 'Pause');
-  }
-}
-
 function pauseSong() {
-  // Pause video by setting src without autoplay
-  if (currentEmbedUrl) {
-    videoPlayer.src = currentEmbedUrl;
-  }
-  isPlaying = false;
+  audio.pause();
   playBtn.innerHTML = '&#9658;'; // Play icon
   playBtn.title = 'Play';
   playBtn.setAttribute('aria-label', 'Play');
 }
 
 function togglePlayPause() {
-  if (isPlaying) {
-    pauseSong();
-  } else {
+  if(audio.paused) {
     playSong();
+  } else {
+    pauseSong();
   }
 }
 
 function prevSong() {
   currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
   loadSong(currentSongIndex);
+  playSong();
 }
 
 function nextSong() {
   currentSongIndex = (currentSongIndex + 1) % songs.length;
   loadSong(currentSongIndex);
+  playSong();
 }
 
-function updateProgress() {
-  // Progress bar and time updates are not implemented for iframe video
-  // Could be implemented with YouTube IFrame API if needed
+function updateProgress(e) {
+  if(audio.duration) {
+    const percent = (audio.currentTime / audio.duration) * 100;
+    progress.style.width = percent + '%';
+    currentTimeEl.textContent = formatTime(audio.currentTime);
+    durationEl.textContent = formatTime(audio.duration);
+    progressContainer.setAttribute('aria-valuenow', Math.round(percent));
+  }
 }
 
-function setProgress() {
-  // Not implemented for iframe video
+function setProgress(e) {
+  const width = this.clientWidth;
+  const clickX = e.offsetX;
+  const duration = audio.duration;
+  if(duration) {
+    audio.currentTime = (clickX / width) * duration;
+  }
 }
 
 function formatTime(seconds) {
@@ -126,7 +114,7 @@ function formatTime(seconds) {
 function updateActiveSong() {
   const songElements = playlistEl.querySelectorAll('.song');
   songElements.forEach((el, idx) => {
-    if (idx === currentSongIndex) {
+    if(idx === currentSongIndex) {
       el.classList.add('active');
       el.setAttribute('aria-current', 'true');
     } else {
@@ -137,13 +125,13 @@ function updateActiveSong() {
 }
 
 function toggleLikeSong(index, button) {
-  if (!isLoggedIn) {
+  if(!isLoggedIn) {
     alert('Debes iniciar sesión para guardar canciones.');
     return;
   }
   const song = songs[index];
   const likedIndex = likedSongs.findIndex(s => s.titulo === song.titulo && s.artista === song.artista);
-  if (likedIndex === -1) {
+  if(likedIndex === -1) {
     likedSongs.push(song);
     button.textContent = '💖';
     button.setAttribute('aria-pressed', 'true');
@@ -157,7 +145,7 @@ function toggleLikeSong(index, button) {
 
 function renderLikedSongs() {
   likedListEl.innerHTML = '';
-  if (likedSongs.length === 0) {
+  if(likedSongs.length === 0) {
     likedListEl.innerHTML = '<p>No tienes canciones guardadas.</p>';
     return;
   }
@@ -171,6 +159,7 @@ function renderLikedSongs() {
     songEl.addEventListener('click', () => {
       currentSongIndex = songs.findIndex(s => s.titulo === song.titulo && s.artista === song.artista);
       loadSong(currentSongIndex);
+      playSong();
     });
     likedListEl.appendChild(songEl);
   });
@@ -178,7 +167,7 @@ function renderLikedSongs() {
 
 function populatePlaylist() {
   playlistEl.innerHTML = '';
-  songs.forEach((song, index) => {
+  songs.forEach( (song, index) => {
     const songEl = document.createElement('div');
     songEl.classList.add('song');
     songEl.setAttribute('tabindex', '0');
@@ -191,7 +180,7 @@ function populatePlaylist() {
       <button class="like-btn" aria-label="Like or save song" aria-pressed="false">🤍</button>
     `;
     const likeBtn = songEl.querySelector('.like-btn');
-    if (!isLoggedIn) {
+    if(!isLoggedIn) {
       likeBtn.disabled = true;
       likeBtn.title = 'Debes iniciar sesión para guardar canciones';
       likeBtn.style.cursor = 'not-allowed';
@@ -203,6 +192,7 @@ function populatePlaylist() {
     songEl.addEventListener('click', () => {
       currentSongIndex = index;
       loadSong(currentSongIndex);
+      playSong();
     });
     songEl.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -217,9 +207,24 @@ function populatePlaylist() {
 playBtn.addEventListener('click', togglePlayPause);
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
-progressContainer.removeEventListener('click', setProgress);
-progressContainer.removeEventListener('keydown', () => {});
-// No progress updates for iframe video
+audio.addEventListener('timeupdate', updateProgress);
+progressContainer.addEventListener('click', setProgress);
+
+audio.addEventListener('ended', nextSong);
+
+// Keyboard accessibility for progress bar to seek time with arrows
+progressContainer.addEventListener('keydown', (e) => {
+  if(audio.duration) {
+    const step = audio.duration * 0.05; // 5% step
+    if(e.key === 'ArrowRight' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      audio.currentTime = Math.min(audio.currentTime + step, audio.duration);
+    } else if(e.key === 'ArrowLeft' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      audio.currentTime = Math.max(audio.currentTime - step, 0);
+    }
+  }
+});
 
 // Initialize UI
 fetchSongs();
