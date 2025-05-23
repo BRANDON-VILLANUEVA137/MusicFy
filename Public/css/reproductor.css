@@ -57,6 +57,36 @@ header h1 {
   justify-content: center;
 }
 
+.btn {
+  background-color: #8e2de2;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  margin: 0 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn svg {
+  stroke: #fff;
+  width: 24px;
+  height: 24px;
+}
+
+.btn:hover {
+  background-color: #d39bf6;
+  transform: scale(1.1);
+}
+
+.btn:focus {
+  outline: 2px solid #d39bf6;
+  outline-offset: 2px;
+}
+
 .liked-songs {
   grid-column: 1 / 2;
   grid-row: 3 / 4;
@@ -197,5 +227,11 @@ header h1 {
   }
   .liked-songs {
     max-height: 150px;
+  }
+  #video-player-container {
+    height: 150px !important;
+  }
+  #video-player {
+    height: 100% !important;
   }
 }
