@@ -14,22 +14,31 @@ const isLoggedIn = appEl.getAttribute('data-logged-in') === 'true';
 
 const trackTitle = document.getElementById('track-title');
 const trackArtist = document.getElementById('track-artist');
-const videoPlayer = document.getElementById('video-player');
-let currentSongIndex = 0;
-const progressContainer = document.getElementById('progress-container');
-const progress = document.getElementById('progress');
-const currentTimeEl = document.getElementById('current-time');
-const durationEl = document.getElementById('duration');
+const playlistEl = document.getElementById('playlist');
+const likedListEl = document.getElementById('liked-list');
 const playBtn = document.getElementById('play');
 const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
-const playlistEl = document.getElementById('playlist');
-const likedListEl = document.getElementById('liked-list');
 
+let player;
 let songs = [];
 let likedSongs = [];
+let currentSongIndex = 0;
 let isPlaying = false;
-let currentEmbedUrl = '';
+
+window.onYouTubeIframeAPIReady = function() {
+  player = new YT.Player('video-player', {
+    events: {
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+function onPlayerStateChange(event) {
+  if (event.data === YT.PlayerState.ENDED) {
+    nextSong();
+  }
+}
 
 async function fetchSongs() {
   try {
@@ -46,32 +55,41 @@ async function fetchSongs() {
   }
 }
 
-function getYouTubeEmbedUrl(youtubeUrl) {
-  // Extract video ID from YouTube URL with improved regex
+function getYouTubeVideoId(youtubeUrl) {
   const videoIdMatch = youtubeUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
   if (videoIdMatch && videoIdMatch[1]) {
-    return `https://www.youtube.com/embed/${videoIdMatch[1]}?enablejsapi=1`;
+    return videoIdMatch[1];
   }
   return '';
 }
 
 function loadSong(index) {
+  if (!songs || songs.length === 0) {
+    console.warn('No songs available to load.');
+    return;
+  }
+  if (index < 0 || index >= songs.length) {
+    console.warn(`Invalid song index: ${index}`);
+    return;
+  }
+  currentSongIndex = index;
   const song = songs[index];
-  currentEmbedUrl = getYouTubeEmbedUrl(song.youtube_url);
-  videoPlayer.src = currentEmbedUrl + '&autoplay=1';
+  const videoId = getYouTubeVideoId(song.youtube_url);
+  if (player && videoId) {
+    player.loadVideoById(videoId);
+    isPlaying = true;
+    playBtn.innerHTML = '&#10073;&#10073;'; // Pause icon
+    playBtn.title = 'Pause';
+    playBtn.setAttribute('aria-label', 'Pause');
+  }
   trackTitle.textContent = song.titulo;
   trackArtist.textContent = song.artista;
   updateActiveSong();
-  isPlaying = true;
-  playBtn.innerHTML = '&#10073;&#10073;'; // Pause icon
-  playBtn.title = 'Pause';
-  playBtn.setAttribute('aria-label', 'Pause');
 }
 
 function playSong() {
-  // Play video by setting src with autoplay
-  if (currentEmbedUrl) {
-    videoPlayer.src = currentEmbedUrl + '&autoplay=1';
+  if (player) {
+    player.playVideo();
     isPlaying = true;
     playBtn.innerHTML = '&#10073;&#10073;'; // Pause icon
     playBtn.title = 'Pause';
@@ -80,14 +98,13 @@ function playSong() {
 }
 
 function pauseSong() {
-  // Pause video by setting src without autoplay
-  if (currentEmbedUrl) {
-    videoPlayer.src = currentEmbedUrl;
+  if (player) {
+    player.pauseVideo();
+    isPlaying = false;
+    playBtn.innerHTML = '&#9658;'; // Play icon
+    playBtn.title = 'Play';
+    playBtn.setAttribute('aria-label', 'Play');
   }
-  isPlaying = false;
-  playBtn.innerHTML = '&#9658;'; // Play icon
-  playBtn.title = 'Play';
-  playBtn.setAttribute('aria-label', 'Play');
 }
 
 function togglePlayPause() {
@@ -106,21 +123,6 @@ function prevSong() {
 function nextSong() {
   currentSongIndex = (currentSongIndex + 1) % songs.length;
   loadSong(currentSongIndex);
-}
-
-function updateProgress() {
-  // Progress bar and time updates are not implemented for iframe video
-  // Could be implemented with YouTube IFrame API if needed
-}
-
-function setProgress() {
-  // Not implemented for iframe video
-}
-
-function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60) || 0;
-  const secs = Math.floor(seconds % 60) || 0;
-  return mins + ':' + (secs < 10 ? '0' + secs : secs);
 }
 
 function updateActiveSong() {
@@ -217,9 +219,9 @@ function populatePlaylist() {
 playBtn.addEventListener('click', togglePlayPause);
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
-progressContainer.removeEventListener('click', setProgress);
-progressContainer.removeEventListener('keydown', () => {});
-// No progress updates for iframe video
 
-// Initialize UI
-fetchSongs();
+// Load YouTube IFrame API script
+const tag = document.createElement('script');
+tag.src = "https://www.youtube.com/iframe_api";
+const firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
