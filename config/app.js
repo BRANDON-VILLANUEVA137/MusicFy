@@ -8,7 +8,7 @@ import bcrypt from 'bcryptjs';
 import pool from './db.js'; // o desde donde lo tengas
 import loginRoutes from '../Routes/loginRoutes.js';
 import cancionesRoutes from '../Routes/cancionesRoutes.js';
-import sessionController from '../controllers/sessionController.js';
+import sessionRoutes from '../Routes/sessionRoutes.js';
 
 //import userRoutes from '../Routes/userRoutes.js';
 
@@ -64,7 +64,7 @@ app.use('/api/auth', loginRoutes);
 // Rutas API
 app.use('/api', loginRoutes);
 app.use('/api', cancionesRoutes);
-app.get('/api/session', sessionController.getSession);
+app.use('/api', sessionRoutes);
 // Middleware global para manejo de errores
 
 
