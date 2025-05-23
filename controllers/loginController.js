@@ -1,3 +1,5 @@
+//loginController.js
+
 import bcrypt from 'bcryptjs';
 import UserModel from '../models/authUserModel.js';
 

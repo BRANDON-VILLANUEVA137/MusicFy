@@ -1,3 +1,5 @@
+//sesionController.js
+
 const sessionController = {
   getSession: (req, res) => {
     if (req.session && req.session.usuario) {
