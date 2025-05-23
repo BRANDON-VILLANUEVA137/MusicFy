@@ -45,13 +45,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static('Public'));
 
 // Sesiones
+const isProduction = process.env.NODE_ENV === 'production';
+
 app.use(session({
   secret: 'clave_secreta_super_segura',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: true,
-    sameSite: 'none',
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 1000 * 60 * 60 * 2
   }
 }));
