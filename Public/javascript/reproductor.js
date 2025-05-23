@@ -217,9 +217,6 @@ function populatePlaylist() {
 playBtn.addEventListener('click', togglePlayPause);
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
-progressContainer.removeEventListener('click', setProgress);
-progressContainer.removeEventListener('keydown', () => {});
-// No progress updates for iframe video
 
 // Initialize UI
 fetchSongs();
