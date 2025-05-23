@@ -1,16 +1,13 @@
-
-
 const domain_railway = "https://musicfy-musicfy.up.railway.app";
 
 // 💡 URL del backend dinámico (localhost o producción)
 const API_URL =
   window.location.hostname === 'localhost'
     ? 'http://localhost:3000' // 🚧 Desarrollo local
-    : domain_railway // ✅ Producción en Railway (cambia esto)
-
+    : domain_railway; // ✅ Producción en Railway (cambia esto)
 
 const appEl = document.getElementById('app');
-const isLoggedIn = appEl.getAttribute('data-logged-in') === 'true';
+let isLoggedIn = false;
 
 const trackTitle = document.getElementById('track-title');
 const trackArtist = document.getElementById('track-artist');
@@ -30,6 +27,24 @@ let songs = [];
 let likedSongs = [];
 let isPlaying = false;
 let currentEmbedUrl = '';
+
+async function fetchSession() {
+  try {
+    const response = await fetch(`${API_URL}/api/session`, {
+      credentials: 'include'
+    });
+    if (!response.ok) {
+      throw new Error('Error fetching session');
+    }
+    const data = await response.json();
+    isLoggedIn = data.loggedIn;
+    appEl.setAttribute('data-logged-in', isLoggedIn ? 'true' : 'false');
+  } catch (error) {
+    console.error(error);
+    isLoggedIn = false;
+    appEl.setAttribute('data-logged-in', 'false');
+  }
+}
 
 async function fetchSongs() {
   try {
@@ -106,21 +121,6 @@ function prevSong() {
 function nextSong() {
   currentSongIndex = (currentSongIndex + 1) % songs.length;
   loadSong(currentSongIndex);
-}
-
-function updateProgress() {
-  // Progress bar and time updates are not implemented for iframe video
-  // Could be implemented with YouTube IFrame API if needed
-}
-
-function setProgress() {
-  // Not implemented for iframe video
-}
-
-function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60) || 0;
-  const secs = Math.floor(seconds % 60) || 0;
-  return mins + ':' + (secs < 10 ? '0' + secs : secs);
 }
 
 function updateActiveSong() {
@@ -219,4 +219,7 @@ prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
 
 // Initialize UI
-fetchSongs();
+(async () => {
+  await fetchSession();
+  await fetchSongs();
+})();
