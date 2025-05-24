@@ -58,24 +58,63 @@ footer {
   bottom: 0;
   left: 0;
   width: 100%;
-  margin: 0 auto;
   background: #1a1937;
   border-radius: 12px 12px 0 0;
-  padding: 15px 30px;
   box-shadow: 0 0 15px #8e2de2;
-  
+  padding: 15px 20px;
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   z-index: 1000;
   gap: 20px;
 }
 
+.video-and-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+  min-width: 2px;
+}
+
+#video-player-container {
+  border-radius: 12px;
+  overflow: hidden;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+}
+
+.track-info {
+  color: #fff;
+  max-width: 250px;
+  overflow: hidden;
+}
+
+.track-title,
+.track-artist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-title {
+  font-weight: bold;
+}
+
 .controls {
+  padding-left: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px; /* espacio entre botones */
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.time {
+  color: #d39bf6;
+  font-size: 14px;
 }
 
 .btn {
@@ -147,7 +186,7 @@ footer {
 
 .playlist {
   position: fixed;         /* Fija en pantalla */
-  bottom: 150px;
+  bottom: 100px;
   right: 0;                /* Pegada al borde derecho */
   height: 300px;           /* Toda la altura de la pantalla */
   width: 300px;            /* Ajusta el ancho según necesites */
