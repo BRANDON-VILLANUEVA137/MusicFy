@@ -83,6 +83,14 @@ function loadSong(index) {
   playBtn.setAttribute('aria-label', 'Pause');
 }
 
+//Barra de naveagcion-----------------------------------
+
+   
+  document.getElementById("Guardar").addEventListener("click", function() {
+    const div = document.getElementById("contenido");
+    div.style.display = div.style.display === "none" ? "block" : "none";
+  });
+//-----------------------------------------------------
 function playSong() {
   // Play video by setting src with autoplay
   if (currentEmbedUrl) {
@@ -93,6 +101,7 @@ function playSong() {
     playBtn.setAttribute('aria-label', 'Pause');
   }
 }
+
 
 function pauseSong() {
   // Pause video by setting src without autoplay

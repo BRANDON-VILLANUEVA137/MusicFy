@@ -44,6 +44,27 @@ header h1 {
   font-size: 1.8rem;
   letter-spacing: 2px;
 }
+
+.header, .pestañas, .pestaña{
+  padding: 10px;
+  background: none;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  color: #fff;
+}
+
+.pestaña{
+  background: #e2602d;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.pestaña:hover{
+  background: #c9b3f5;
+}
+
 footer {
   position: fixed;
   bottom: 0;
