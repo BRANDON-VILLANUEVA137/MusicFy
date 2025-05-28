@@ -37,6 +37,10 @@ export const getYoutubeInfo = async (req, res) => {
     res.json(result);
   } catch (error) {
     console.error('Error fetching YouTube info:', error);
-    res.status(500).json({ error: 'Error fetching YouTube info' });
+    if (error.message && error.message.includes('Could not extract functions')) {
+      res.status(500).json({ error: 'Error parsing YouTube video info. Please try again later.' });
+    } else {
+      res.status(500).json({ error: 'Error fetching YouTube info' });
+    }
   }
 };
