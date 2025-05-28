@@ -227,6 +227,41 @@ playBtn.addEventListener('click', togglePlayPause);
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
 
+document.getElementById('url').addEventListener('click', async () => {
+  const url = document.getElementById('guaurl').value.trim();
+  if (!url) {
+    alert('Por favor, ingresa una URL de YouTube.');
+    return;
+  }
+  try {
+    const response = await fetch(`${API_URL}/api/youtube-info`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ url })
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      alert('Error: ' + (errorData.error || 'No se pudo obtener la información'));
+      return;
+    }
+    const data = await response.json();
+    console.log('Información de YouTube recibida:', data);
+    // Optionally, add the new song to the songs list and update UI
+    songs.push({
+      titulo: data.nombre,
+      artista: data.artista,
+      youtube_url: data.youtube_url
+    });
+    populatePlaylist();
+    alert('Información de YouTube guardada correctamente.');
+  } catch (error) {
+    console.error('Error al obtener información de YouTube:', error);
+    alert('Error al obtener información de YouTube.');
+  }
+});
+
 // Initialize UI
 (async () => {
   await fetchSession();

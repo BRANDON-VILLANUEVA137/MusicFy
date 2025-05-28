@@ -9,3 +9,13 @@ export const getAllSongs = async () => {
     throw error;
   }
 };
+
+export const insertSong = async (titulo, artista, youtube_url) => {
+  const query = 'INSERT INTO canciones (titulo, artista, youtube_url) VALUES (?, ?, ?)';
+  try {
+    const [result] = await db.query(query, [titulo, artista, youtube_url]);
+    return result.insertId;
+  } catch (error) {
+    throw error;
+  }
+};

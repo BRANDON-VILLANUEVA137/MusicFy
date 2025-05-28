@@ -1,7 +1,8 @@
 import express from 'express';
 const router = express.Router();
-import { getSongs } from '../controllers/cancionesController.js';
+import { getSongs, getYoutubeInfo } from '../controllers/cancionesController.js';
 
 router.get('/canciones', getSongs);
+router.post('/youtube-info', getYoutubeInfo);
 
 export default router;
