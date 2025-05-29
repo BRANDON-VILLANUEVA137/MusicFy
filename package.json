@@ -9,7 +9,7 @@
     "express-sessions": "^1.0.1",
     "mysql2": "^3.14.1",
     "node.js": "^0.0.1-security",
-    "ytdl-core": "^4.11.5"
+    "ytdl-core": "^4.11.6"
   },
   "scripts": {
     "start": "node config/app.js",
