@@ -257,7 +257,6 @@ document.getElementById('url').addEventListener('click', async () => {
     }
 
     const data = await response.json();
-    console.log('Información de YouTube recibida:', data);
 
     songs.push({
       titulo: data.nombre,
@@ -266,7 +265,7 @@ document.getElementById('url').addEventListener('click', async () => {
     });
 
     populatePlaylist();
-    alert('Información de YouTube guardada correctamente.');
+    alert('Cancion o video guardado correctamente.');
 
   } catch (error) {
     console.error('Error al obtener información de YouTube:', error);
