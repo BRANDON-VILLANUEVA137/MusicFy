@@ -229,11 +229,18 @@ nextBtn.addEventListener('click', nextSong);
 
 document.getElementById('url').addEventListener('click', async () => {
   const url = document.getElementById('guaurl').value.trim();
-  if (!url) {
-    alert('Por favor, ingresa una URL de YouTube.');
-    return;
-  }
+  if (!response.ok) {
+  let errorMsg = 'No se pudo obtener la información';
   try {
+    const errorData = await response.json();
+    errorMsg = errorData.error || errorMsg;
+  } catch (jsonError) {
+    console.warn('La respuesta no fue un JSON válido.');
+  }
+  alert('Error: ' + errorMsg);
+  return;
+}
+try {
     const response = await fetch(`${API_URL}/api/youtube-info`, {
       method: 'POST',
       headers: {

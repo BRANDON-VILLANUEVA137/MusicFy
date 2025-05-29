@@ -17,7 +17,7 @@ export const getYoutubeInfo = async (req, res) => {
   try {
     const { url } = req.body;
     if (!url || !ytdl.validateURL(url)) {
-      return res.status(400).json({ error: 'Invalid or missing YouTube URL' });
+      return res.status(400).json({ error: 'URL de YouTube no válida o faltante' });
     }
     const info = await ytdl.getInfo(url);
     const result = {
@@ -31,16 +31,16 @@ export const getYoutubeInfo = async (req, res) => {
       const insertId = await insertSong(result.nombre, result.artista, result.youtube_url);
       result.id = insertId;
     } catch (dbError) {
-      console.error('Error saving song to database:', dbError);
-      return res.status(500).json({ error: 'Error saving song to database' });
+      console.error('Error al guardar la canción en la base de datos:', dbError);
+      return res.status(500).json({ error: 'Error al guardar la canción en la base de datos' });
     }
     res.json(result);
   } catch (error) {
-    console.error('Error fetching YouTube info:', error);
-    if (error.message && error.message.includes('Could not extract functions')) {
-      res.status(500).json({ error: 'Error parsing YouTube video info. Please try again later.' });
+    console.error('Error al obtener la información de YouTube: ', error);
+    if (error.message && error.message.includes('No se pudieron extraer funciones')) {
+      res.status(500).json({ error: 'Error al analizar la información del vídeo de YouTube. Inténtalo de nuevo más tarde.' });
     } else {
-      res.status(500).json({ error: 'Error fetching YouTube info' });
+      res.status(500).json({ error: 'Error al obtener la información de YouTube' });
     }
   }
 };
