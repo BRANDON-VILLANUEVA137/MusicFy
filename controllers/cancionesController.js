@@ -1,5 +1,5 @@
 import { getAllSongs } from '../models/cancionesModel.js';
-import ytdl from 'ytdl-core';
+import ytdl from '@distube/ytdl-core';
 
 export const getSongs = async (req, res) => {
   try {
