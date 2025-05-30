@@ -1,8 +1,8 @@
-
-
+/* Estilo base */
 #contenido {
   display: none;
   max-width: 600px;
+  width: 90%; /* Añadido para adaptarse a pantallas pequeñas */
   margin: 2rem auto;
   padding: 1.5rem 2rem;
   background-color: #f9fafb;
@@ -10,7 +10,9 @@
   box-shadow: 0 8px 16px rgba(0,0,0,0.1);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
+  box-sizing: border-box;
 }
+
 #contenido h1 {
   font-size: 1.8rem;
   font-weight: 700;
@@ -18,6 +20,7 @@
   color: #222;
   text-align: center;
 }
+
 #contenido textarea#gauurl {
   width: 100%;
   height: 120px;
@@ -28,16 +31,22 @@
   resize: vertical;
   transition: border-color 0.3s ease;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
 }
-#guaurl{
-    width: 547px;
-    height: 28px;
+
+#guaurl {
+  width: 100%; /* antes: 547px */
+  height: 28px;
+  max-width: 100%;
+  box-sizing: border-box;
 }
+
 #contenido textarea#gauurl:focus {
   border-color: #3b82f6;
   outline: none;
   box-shadow: 0 0 8px rgba(59,130,246,0.4);
 }
+
 #contenido button.guardar {
   display: block;
   margin: 1.5rem auto 0;
@@ -51,6 +60,24 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 #contenido button.guardar:hover {
   background-color: #df4508;
+}
+
+/* Responsive para pantallas menores a 500px */
+@media (max-width: 500px) {
+  #contenido {
+    padding: 1rem;
+  }
+
+  #contenido h1 {
+    font-size: 1.5rem;
+  }
+
+  #contenido button.guardar {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+  }
 }
