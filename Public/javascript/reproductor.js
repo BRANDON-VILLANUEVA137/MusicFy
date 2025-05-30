@@ -85,12 +85,38 @@ function loadSong(index) {
 
 //Barra de naveagcion-----------------------------------
 
-   
-  document.getElementById("Guardar").addEventListener("click", function() {
-    const div = document.getElementById("contenido");
-    div.style.display = div.style.display === "none" ? "block" : "none";
-  });
-//-----------------------------------------------------
+// Botón de guardar música
+document.getElementById("Guardar").addEventListener("click", function () {
+  const guardarDiv = document.getElementById("contenido");
+  const musicaDiv = document.getElementById("MUSICAS");
+
+  // Mostrar u ocultar "contenido"
+  if (guardarDiv.style.display === "none" || guardarDiv.style.display === "") {
+    guardarDiv.style.display = "block";
+    musicaDiv.style.display = "none"; // Oculta la otra
+  } else {
+    guardarDiv.style.display = "none";
+  }
+});
+
+// Botón de ver toda la música
+document.getElementById("MUSICA").addEventListener("click", function () {
+  const guardarDiv = document.getElementById("contenido");
+  const musicaDiv = document.getElementById("MUSICAS");
+
+  // Mostrar u ocultar "MUSICAS"
+  if (musicaDiv.style.display === "none" || musicaDiv.style.display === "") {
+    musicaDiv.style.display = "block";
+    guardarDiv.style.display = "none"; // Oculta la otra
+  } else {
+    musicaDiv.style.display = "none";
+  }
+});
+
+// FIN barra de naveagcion-----------------------------------
+
+
+
 function playSong() {
   // Play video by setting src with autoplay
   if (currentEmbedUrl) {
@@ -185,6 +211,12 @@ function renderLikedSongs() {
   });
 }
 
+function obtenerIdYoutube(url) {
+  const regex = /(?:v=|\/)([0-9A-Za-z_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
 function populatePlaylist() {
   playlistEl.innerHTML = '';
   songs.forEach((song, index) => {
@@ -194,11 +226,19 @@ function populatePlaylist() {
     songEl.setAttribute('role', 'button');
     songEl.setAttribute('aria-pressed', 'false');
     songEl.setAttribute('aria-label', `${song.titulo} by ${song.artista}`);
+   
+    const id = obtenerIdYoutube(song.youtube_url);
+    const thumbnailUrl = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+
+    
     songEl.innerHTML = `
-      <div class="song-title">${song.titulo}</div>
-      <div class="song-artist">${song.artista}</div>
-      <button class="like-btn" aria-label="Like or save song" aria-pressed="false">🤍</button>
-    `;
+  <img src="${thumbnailUrl}" alt="Miniatura de ${song.titulo}" class="thumbnail" />
+  <div class="song-info">
+    <div class="song-title">${song.titulo}</div>
+    <div class="song-artist">${song.artista}</div>
+  </div>
+  <button class="like-btn" aria-label="Like or save song" aria-pressed="false">🤍</button>
+  `;
     const likeBtn = songEl.querySelector('.like-btn');
     if (!isLoggedIn) {
       likeBtn.disabled = true;

@@ -3,41 +3,50 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-<title>Music Vibe - Dark Music Player</title>
+<link rel="icon" href="/Public/img/favincon.png" type="image/x-icon">
+<title>Music_FY - MP</title>
 <link rel="stylesheet" href="/Public/css/navbar.css">
 <link rel="stylesheet" href="/Public/css/reproductor.css">
 </head>
 <body data-logged-in="false">
 <div id="app" role="main" aria-label="Music player app" data-logged-in="false">
   <header>
-    <h1>Music Vibe</h1>
+    <h1>Music_FY</h1>
     <div class="eleccion">
       <section class="pestañas">
         <button class="pestaña" type="submit">Artistas</button>
-        <button class="pestaña" type="submit">Musica</button>
+        <button class="pestaña" id="MUSICA" type="submit">Musica</button>
         <button class="pestaña" id="Guardar" type="submit">Guardar Musica</button>
       </section>
     </div>
+    
+    <!--Este es el nav de guardar musica-->
     <div id="contenido" style="display: none;">
 
     <h1>Copia y pega tu url de youtube</h1>
     <textarea name="Agregar" id="guaurl"></textarea>
     <button class="guardar" id="url">Guardar </button>  
   
-</div>
+    </div>
+
+    <!--Este es el nav de musica-->
+    <div id="MUSICAS" style="display: none;">
+
+    <section class="playlist" id="playlist" aria-label="Playlist of songs">
+    
+  </section>
+    </div>
 
   </header>
    
   
-   <section class="liked-songs" id="liked-songs" aria-label="Liked or saved songs">
+   <section class="liked-songs" id="liked-songs" aria-label="Liked or saved songs" style="display: none;">
     <h2>Canciones guardadas</h2>
     <div id="liked-list">
       
     </div>
   </section>
-  <section class="playlist" id="playlist" aria-label="Playlist of songs">
-    
-  </section>
+  
 </div> 
 
   <footer>
