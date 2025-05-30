@@ -389,12 +389,7 @@ footer {
 
 /* Additional smaller screen adjustments */
 @media (max-width: 480px) {
-  .player {
-    flex-direction: column; /* Stack player elements */
-    align-items: flex-start; /* Align items to the start */
-    padding: 10px; /* Padding for player */
-  }
-
+ 
 
   header h1 {
     font-size: 1.4rem;
@@ -405,12 +400,17 @@ footer {
   }
   .playlist {
     height: auto;
-    max-height: 250px; /* Limit height for playlist */
+    max-height: 540px; /* Limit height for playlist */
+    bottom: 0;
     overflow-y: auto; /* Enable scrolling */
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 0 10px #e2602d; /* Shadow effect */
   }
 .player {
+   backdrop-filter: blur(10px); /* desenfoque del fondo */
+  background-color: rgba(241, 230, 65, 0.2); /* fondo semi-transparente */
+      flex-direction: column; 
+    align-items: flex-start; 
     padding: 10px;
     gap: 10px;
   }
