@@ -205,9 +205,64 @@ footer {
   box-shadow: 0 0 15px #d39bf6;
 }
 
-.playlist {
+
+
+#ARTISTAS {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-auto-rows: min-content;
+  gap: 10px;
+  padding: 10px;
+  background: #1a1937;
+  border-radius: 12px;
+  box-shadow: inset 0 0 20px #e2602d;
+  width: 100%;
+  max-width: 1200px;
+  height: 400px;
+  overflow-y: auto;
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+}
+
+.song-artista {
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  background-color: #2b2852;
+  color: #c9b3f5;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: auto;
+  overflow: hidden;
+  box-shadow: 0 0 4px transparent;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.song-artista:hover {
+  background: #651fff;
+  color: #fff;
+  box-shadow: 0 0 15px #d39bf6;
+}
+
+.thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+
+
+  .playlist {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* más espacio horizontal */
+  grid-auto-rows: min-content;
   gap: 10px;
   padding: 10px;
   background: #1a1937;
@@ -406,6 +461,7 @@ footer {
     border-radius: 10px; /* Rounded corners */
     box-shadow: 0 0 10px #e2602d; /* Shadow effect */
   }
+ 
 .player {
    backdrop-filter: blur(10px); /* desenfoque del fondo */
   background-color: rgba(241, 230, 65, 0.2); /* fondo semi-transparente */

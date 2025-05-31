@@ -22,7 +22,8 @@ const prevBtn = document.getElementById('prev');
 const nextBtn = document.getElementById('next');
 const playlistEl = document.getElementById('playlist');
 const likedListEl = document.getElementById('liked-list');
-
+const artistas = document.getElementById('ARTISTAS');
+ 
 let songs = [];
 let likedSongs = [];
 let isPlaying = false;
@@ -87,31 +88,56 @@ function loadSong(index) {
 
 // Botón de guardar música
 document.getElementById("Guardar").addEventListener("click", function () {
+  const artistas = document.getElementById("ARTISTAS");
   const guardarDiv = document.getElementById("contenido");
   const musicaDiv = document.getElementById("MUSICAS");
 
   // Mostrar u ocultar "contenido"
   if (guardarDiv.style.display === "none" || guardarDiv.style.display === "") {
     guardarDiv.style.display = "block";
+    artistas.style.display = "none";
     musicaDiv.style.display = "none"; // Oculta la otra
   } else {
+    artistas.style.display = "none";
     guardarDiv.style.display = "none";
   }
 });
 
 // Botón de ver toda la música
 document.getElementById("MUSICA").addEventListener("click", function () {
+  const artistas = document.getElementById("ARTISTAS");
   const guardarDiv = document.getElementById("contenido");
   const musicaDiv = document.getElementById("MUSICAS");
 
   // Mostrar u ocultar "MUSICAS"
   if (musicaDiv.style.display === "none" || musicaDiv.style.display === "") {
     musicaDiv.style.display = "block";
+    artistas.style.display = "none";
     guardarDiv.style.display = "none"; // Oculta la otra
-  } else {
+  } else {  
+    artistas.style.display = "none";
     musicaDiv.style.display = "none";
   }
 });
+
+// Botón de ver artistas
+  document.getElementById("Artistas").addEventListener("click", function() {
+    const artistas = document.getElementById("ARTISTAS");
+    const guardarDiv = document.getElementById("contenido");
+    const musicaDiv = document.getElementById("MUSICAS");
+
+    if(artistas.style.display === "none" || artistas.style.display === "") {
+    artistas.style.display="block";
+    musicaDiv.style.display = "none";
+    guardarDiv.style.display = "none"; // Oculta la otra
+    }else{
+      musicaDiv.style.display = "none";
+      guardarDiv.style.display = "none"; // Oculta la otra
+        
+    }
+    
+
+  });
 
 // FIN barra de naveagcion-----------------------------------
 
@@ -263,6 +289,41 @@ function populatePlaylist() {
   });
 }
 
+
+// Función para mostrar artistas únicos
+function artis() {
+  const artistas = document.getElementById('ARTISTAS');
+  artistas.innerHTML = '';
+
+  // Obtener una lista única de artistas
+  const artistasUnicos = [...new Set(songs.map(song => song.artista))];
+
+  artistasUnicos.forEach((artista) => {
+    const songAr = document.createElement('div');
+    songAr.classList.add('song-artista'); // Clase directa para aplicar grid
+    songAr.setAttribute('tabindex', '0');
+    songAr.setAttribute('role', 'button');
+    songAr.setAttribute('aria-pressed', 'false');
+    songAr.setAttribute('aria-label', `Artista: ${artista}`);
+
+    // Buscar una canción de ese artista
+    const algunaCancion = songs.find(song => song.artista === artista);
+    const id = algunaCancion ? obtenerIdYoutube(algunaCancion.youtube_url) : null;
+    const thumbnailUrl = id ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : '';
+    const titulo = algunaCancion ? algunaCancion.titulo : '';
+
+    songAr.innerHTML = `
+      ${thumbnailUrl ? `<img src="${thumbnailUrl}" alt="Miniatura de ${titulo}" class="thumbnail" />` : ''}
+      <div class="song-artista">${artista}</div>
+    `;
+
+    artistas.appendChild(songAr);
+  });
+}
+
+
+
+
 playBtn.addEventListener('click', togglePlayPause);
 prevBtn.addEventListener('click', prevSong);
 nextBtn.addEventListener('click', nextSong);
@@ -317,4 +378,5 @@ document.getElementById('url').addEventListener('click', async () => {
 (async () => {
   await fetchSession();
   await fetchSongs();
+  artis();  
 })();
